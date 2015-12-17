@@ -23,6 +23,7 @@ The game ends when the first player reaches 3000. Once that happens a final roun
 
 Scoring table
 -------------
+| Values    | Points      |
 | --------- | ----------- |
 | Three 1's | 1000 points |
 | Three 6's |  600 points |
