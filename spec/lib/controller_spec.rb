@@ -19,12 +19,23 @@ describe Controller do
 
 
     describe '#play_game' do
-        it 'plays a round for every person', test: true do
-            expect(controller).to receive(:play_round).at_least(3).times.and_return(200,500,0)
+        it 'plays a round for every person'do
+            expect(STDOUT).to receive(:puts).at_least(:once)
+            expect(controller).to receive(:play_round).exactly(6).times.and_return(200,500,5000,200,500,5000)
 
             controller.play_game
 
-            expect(controller.players[0].total_score).to eq(200)
+            expect(controller.players[0].total_score).to eq(400)
+            expect(controller.players[1].total_score).to eq(1000)
+            expect(controller.players[2].total_score).to eq(10000)
+
+        end
+
+        it 'plays a final round once the point threshold has been reached' do
+            expect(STDOUT).to receive(:puts).at_least(:once)
+            expect(controller).to receive(:play_round).exactly(6).times.and_return(200,500,5000,100,250,0)
+
+            controller.play_game
         end
     end
 

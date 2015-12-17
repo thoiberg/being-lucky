@@ -1,5 +1,6 @@
 require_relative 'being_lucky'
 require_relative 'die'
+require_relative 'player'
 
 ##
 # A top level class to control the flow of the game. This class
@@ -25,9 +26,25 @@ class Controller
     # plays the game. Does not return any data but outputs text to the screen
     # for player feedback
     def play_game
-        @players.each do |player|
-            player.update_total_score(play_round)
+        until begin_final_round? 
+            @players.each do |player|
+                puts "#{player.name}'s turn. Current total: #{player.total_score}"
+                player.update_total_score(play_round)
+            end
         end
+
+        puts "Final Round!!"
+        # I'm sure there's a better way to natively incoporate this into the until loop
+        @players.each do |player|
+                puts "#{player.name}'s turn. Current total: #{player.total_score}"
+                player.update_total_score(play_round)
+            end
+
+        # print game summary
+        @players.sort_by {|player| player.total_score}.each do |player|
+            puts "#{player.name} Score: #{player.total_score}"
+        end
+
     end
 
     ##
