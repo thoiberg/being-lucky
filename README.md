@@ -1,4 +1,5 @@
 # being-lucky
+[![Build Status](https://travis-ci.org/thoiberg/being-lucky.svg?branch=master)](https://travis-ci.org/thoiberg/being-lucky)
 
 Being Lucky is a simple app to play a small dice game.
 
