@@ -2,7 +2,7 @@
 # object that takes an array of +Die+ objects and rolls them, calculating 
 # the score of the turn.
 class BeingLucky
-    attr_reader :dice, :total_score
+    attr_reader :dice, :turn_score
 
     ##
     # Maps the face value on a die to the number of times it appears in a 5 die roll
@@ -40,7 +40,7 @@ class BeingLucky
     # @param [Die] dice an Array of Die objects
     def initialize(dice)
         @dice = dice
-        @total_score = 0
+        @turn_score = 0
     end
 
     # A method to roll the dice and calculate the score of the turn based on
@@ -115,14 +115,21 @@ class BeingLucky
     # @param [Integer] points the amount of points from the current turn
     # @return [Integer] current total_score
     def add_to_total(points)
-        @total_score += points if @total_score >= MINIMUM_POINTS || points >= MINIMUM_POINTS
+        @turn_score += points if @turn_score >= MINIMUM_POINTS || points >= MINIMUM_POINTS
     end
 
     ##
     # Method to check if there are any dice left to roll
     # @return [Boolean] whether there are any dice left to roll
     def can_roll?
-        not @dice.empty?
+        dice_count > 0
+    end
+
+    ##
+    # convience method to return the amount of dice left
+    # @return [Integer] the amount of dice left to roll
+    def dice_count
+        @dice.count
     end
 
 

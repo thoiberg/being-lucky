@@ -12,7 +12,7 @@ describe BeingLucky do
         end
 
         it 'initialises with defaults' do
-            expect(scorer.total_score).to eq(0)
+            expect(scorer.turn_score).to eq(0)
         end
     end
 
@@ -28,27 +28,27 @@ describe BeingLucky do
 
         context 'computes total score' do
             it 'adds the score to the total score if total score is over 300' do
-                scorer.instance_variable_set(:@total_score, 301)
+                scorer.instance_variable_set(:@turn_score, 301)
                 expect(scorer).to receive(:calculate_points).once.and_return(20)
 
                 expect(scorer.score).to eq(20)
-                expect(scorer.total_score).to eq(321)
+                expect(scorer.turn_score).to eq(321)
             end
 
             it 'adds the score to the total score if total score at 300' do
-                scorer.instance_variable_set(:@total_score, 300)
+                scorer.instance_variable_set(:@turn_score, 300)
                 expect(scorer).to receive(:calculate_points).once.and_return(20)
 
                 expect(scorer.score).to eq(20)
-                expect(scorer.total_score).to eq(320)
+                expect(scorer.turn_score).to eq(320)
             end
 
             it 'does not add the current score to the total score if current total is below 300' do
-                expect(scorer.total_score).to eq(0)
+                expect(scorer.turn_score).to eq(0)
                 expect(scorer).to receive(:calculate_points).once.and_return(20)
 
                 expect(scorer.score).to eq(20)
-                expect(scorer.total_score).to eq(0)
+                expect(scorer.turn_score).to eq(0)
             end
         end
     end
@@ -108,27 +108,27 @@ describe BeingLucky do
 
     describe '#add_to_total' do
         it 'adds any number if current total is at or over 300' do
-            scorer.instance_variable_set(:@total_score, 300)
+            scorer.instance_variable_set(:@turn_score, 300)
             scorer.add_to_total(20)
-            expect(scorer.total_score).to eq(320)
+            expect(scorer.turn_score).to eq(320)
 
-            expect(scorer.total_score).to be > (300)
+            expect(scorer.turn_score).to be > (300)
             scorer.add_to_total(20)
-            expect(scorer.total_score).to eq(340)
+            expect(scorer.turn_score).to eq(340)
         end
 
         it 'does not add a number smaller than 300 if the total is not at 300' do
-            expect(scorer.total_score).to eq(0)
+            expect(scorer.turn_score).to eq(0)
             scorer.add_to_total(3)
 
-            expect(scorer.total_score).to eq(0)
+            expect(scorer.turn_score).to eq(0)
         end
 
         it 'adds any number to total if greater than or equal to 300' do
-            expect(scorer.total_score).to eq(0)
+            expect(scorer.turn_score).to eq(0)
             expect(scorer.add_to_total(300)).to eq(300)
 
-            expect(scorer.total_score).to eq(300)
+            expect(scorer.turn_score).to eq(300)
         end
     end
 
@@ -142,6 +142,12 @@ describe BeingLucky do
             scorer = BeingLucky.new([])
             expect(scorer.dice).to be_empty
             expect(scorer.can_roll?).to be_falsey
+        end
+    end
+
+    describe '#dice_count' do
+        it 'returns the current amount of dice left' do
+            expect(scorer.dice.count).to eq(scorer.dice_count)
         end
     end
 end
